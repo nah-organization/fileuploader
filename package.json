@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build": "tsc",
+    "start": "node server/main.js",
+    "dockerup": "docker-compose build;docker compose up -d",
+    "dockerdown": "docker compose down"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.7",
+    "typescript": "^4.8.4"
+  }
+}
