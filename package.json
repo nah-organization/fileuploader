@@ -3,10 +3,15 @@
     "build": "tsc",
     "start": "node server/main.js",
     "dockerup": "docker-compose build;docker compose up -d",
-    "dockerdown": "docker compose down"
+    "dockerdown": "docker compose down",
+    "chgdschema": "prisma generate"
   },
   "devDependencies": {
     "@types/node": "^18.11.7",
+    "prisma": "^4.5.0",
     "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.5.0"
   }
 }
