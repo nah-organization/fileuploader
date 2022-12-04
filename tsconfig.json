@@ -55,8 +55,8 @@
     // "downlevelIteration": true,                       /* Emit more compliant, but verbose and less performant JavaScript for iteration. */
     // "sourceRoot": "",                                 /* Specify the root path for debuggers to find the reference source code. */
     // "mapRoot": "",                                    /* Specify the location where debugger should locate map files instead of generated locations. */
-    // "inlineSourceMap": true,                          /* Include sourcemap files inside the emitted JavaScript. */
-    // "inlineSources": true,                            /* Include source code in the sourcemaps inside the emitted JavaScript. */
+    "inlineSourceMap": true,                          /* Include sourcemap files inside the emitted JavaScript. */
+    "inlineSources": true,                            /* Include source code in the sourcemaps inside the emitted JavaScript. */
     // "emitBOM": true,                                  /* Emit a UTF-8 Byte Order Mark (BOM) in the beginning of output files. */
     // "newLine": "crlf",                                /* Set the newline character for emitting files. */
     // "stripInternal": true,                            /* Disable emitting declarations that have `@internal` in their JSDoc comments. */
@@ -90,7 +90,7 @@
     // "noFallthroughCasesInSwitch": true,               /* Enable error reporting for fallthrough cases in switch statements. */
     "noUncheckedIndexedAccess": true,                 /* Include 'undefined' in index signature results */
     "noImplicitOverride": true,                       /* Ensure overriding members in derived classes are marked with an override modifier. */
-    "noPropertyAccessFromIndexSignature": true,       /* Enforces using indexed accessors for keys declared using an indexed type */
+    // "noPropertyAccessFromIndexSignature": true,       /* Enforces using indexed accessors for keys declared using an indexed type */
     "allowUnusedLabels": false,                        /* Disable error reporting for unused labels. */
     "allowUnreachableCode": false,                     /* Disable error reporting for unreachable code. */
 
