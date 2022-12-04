@@ -1,0 +1,43 @@
+const serverURL = new URL('https://33554432-2.local:4000/');
+
+function byteToString(byte) {
+    const size = Math.floor(Math.log2(byte) / 10);
+    return (byte / (1 << size * 10)).toFixed(1) + ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'][size] ?? ` * 10 ^ ${size}`;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const id = location.hash.slice(1);
+    let deletePassword = localStorage.getItem('deletePassword-' + id);
+
+    fetch(serverURL + id + '/info').then(info => {
+        const filename = document.getElementById('filename');
+        filename.textContent = info.filename;
+        const size = document.getElementById('size');
+        size.textContent = byteToString(info.fileSize);
+    });
+    const deleteButton = document.getElementById('delete');
+
+    deleteButton.addEventListener('click', () => {
+        if (!deletePassword) {
+            deletePassword = prompt('削除パスワードを入力してください。');
+        }
+        const result = confirm('本当に削除しますか？');
+        if (result) {
+            const query = () => {
+                fetch(serverURL + id + '/', {
+                    method: 'DELETE'
+                }).then(res => {
+                    if (res.ok) {
+                        alert('削除しました。');
+                        location.href = '/';
+                    } else {
+                        deletePassword = prompt('削除できませんでした。削除パスワードを入力してください。');
+                        if (deletePassword) {
+                            query();
+                        }
+                    }
+                });
+            };
+        }
+    });
+});
