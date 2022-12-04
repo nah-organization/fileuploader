@@ -2,14 +2,12 @@ import https from 'https';
 import fs from 'fs';
 import * as bcrypt from 'bcrypt';
 import random from './random';
-import { hostname, maxUploadSize, realPort, topRedirect } from './envs';
+import { hostname, maxUploadSize, qrcodeBaseURL, realPort, topRedirect } from './envs';
 import { createHashThroughStream } from './streamThroughHash';
 import { sizeLimitTransform } from './sizeLimitTransform';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-
-const qrcodeBaseURL = 'http://localhost:4000/?url=';
 
 function main(hostname: string, port: number, httpsOptions: https.ServerOptions) {
     const baseURL = `https://${hostname}${realPort === 443 ? '' : ':' + realPort}/`;

@@ -10,6 +10,7 @@ services:
       - FILEUPLOADER_HOSTNAME
       - FILEUPLOADER_REAL_PORT
       - FILEUPLOADER_TOP_REDIRECT
+      - MICRO_QR_URL
     volumes:
       - ./log/:/app/log/
       - "$FILEUPLOADER_CERT_PATH:/etc/cert/"
