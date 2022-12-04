@@ -4,15 +4,19 @@ services:
   app:
     build: .
     ports:
-      - 4000:443
+      - "$FILEUPLOADER_REAL_PORT:443"
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - FILEUPLOADER_HOSTNAME
-      - FILEUPLOADER_CERT_PATH
+      - FILEUPLOADER_REAL_PORT
+      - FILEUPLOADER_TOP_REDIRECT
     volumes:
       - ./log/:/app/log/
       - "$FILEUPLOADER_CERT_PATH:/etc/cert/"
+      - upload_file:/app/files/
     restart: always
+    stdin_open: true
+    tty: true
   mysql:
     build: ./mysql
     environment:
@@ -24,3 +28,4 @@ services:
 
 volumes:
   mysql_file:
+  upload_file:
