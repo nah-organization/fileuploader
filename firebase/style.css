@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Emoji&family=Noto+Sans+JP&display=swap');
+
+* {
+    font-family: 'HackGen', 'menlo', 'monaco', 'Courier New', Courier, monospace;
+}
+
+img {
+    display: block;
+}
+
+input[name=displayURL]+label {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+input[name=displayURL]:checked+label {
+    background-color: #33f;
+    color: #fff;
+}
+
+#QRArea div {
+    display: none;
+}
+
+#directDownload:checked~* #directDownloadQRArea {
+    display: block;
+}
+
+#firebaseInfo:checked~* #firebaseInfoQRArea {
+    display: block;
+}
+
+#firebaseWithPassword:checked~* #firebaseWithPasswordQRArea {
+    display: block;
+}
+
+.emoji {
+    font-family: 'Noto Emoji';
+}

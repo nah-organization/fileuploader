@@ -4,8 +4,39 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Upload</title>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <script src="script.js"></script>
+        <h1>file uploader</h1>
+        <span>選択するとすぐにアップロードされます。だってアップロードボタン作るのめんどいから</span>
+        <button id="chooseButton">choose file...</button>
+        <input type="file" id="fileSelector" hidden>
+
+        <div id="uploaded" hidden>
+            <div>
+                <label for="deletePassword">削除用パスワード</label><input type="text" readonly id="deletePassword"><button id="deletePasswordCopy" class="copy">コピー<span class="emoji">📑</span></button>
+            </div>
+            <div>
+                <input type="radio" name="displayURL" id="directDownload" hidden><label for="directDownload">直接ダウンロード</label>
+                <input type="radio" name="displayURL" id="firebaseInfo" hidden><label for="firebaseInfo">情報の表示</label>
+                <input type="radio" name="displayURL" id="firebaseWithPassword" hidden><label for="firebaseWithPassword">パスワードを共有</label>
+
+                <div id="QRArea">
+                    <div id="directDownloadQRArea">
+                        <img src="" alt="" id="directDownloadQRCode">
+                        <input type="text" readonly id="directDownloadURL"><button id="directDownloadURLCopy" class="copy">コピー<span class="emoji">📑</span></button>
+                    </div>
+                    <div id="firebaseInfoQRArea">
+                        <img src="" alt="" id="firebaseInfoQRCode">
+                        <input type="text" readonly id="firebaseInfoURL"><button id="firebaseInfoURLCopy" class="copy">コピー<span class="emoji">📑</span></button>
+                    </div>
+                    <div id="firebaseWithPasswordQRArea">
+                        <img src="" alt="" id="firebaseWithPasswordQRCode">
+                        <input type="text" readonly id="firebaseWithPasswordURL"><button id="firebaseWithPasswordURLCopy" class="copy">コピー<span class="emoji">📑</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="script.js" type="module"></script>
     </body>
 </html>
