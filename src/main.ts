@@ -1,7 +1,8 @@
 import https from 'https';
 import fs from 'fs';
+import * as bcrypt from 'bcrypt';
 import random from './random';
-import { maxUploadSize, topRedirect } from './envs';
+import { hostname, maxUploadSize, realPort, topRedirect } from './envs';
 import { createHashThroughStream } from './streamThroughHash';
 import { sizeLimitTransform } from './sizeLimitTransform';
 import { PrismaClient } from '@prisma/client';
@@ -11,7 +12,7 @@ const prisma = new PrismaClient();
 const qrcodeBaseURL = 'http://localhost:4000/?url=';
 
 function main(hostname: string, port: number, httpsOptions: https.ServerOptions) {
-    const baseURL = `https://${hostname}${port === 443 ? '' : ':' + port}/`;
+    const baseURL = `https://${hostname}${realPort === 443 ? '' : ':' + realPort}/`;
 
     const server = https.createServer(httpsOptions, (req, res) => {
         const url = new URL(req.url ?? '', `https://${hostname}/`);
@@ -80,12 +81,11 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
                 return;
             }
 
-            const deletePassword = random(6);
 
             const tmpFileName = random();
             const [hashResultPromise, hashTransform] = createHashThroughStream();
             const [sizeResultPromise, limitter] = sizeLimitTransform(maxUploadSize);
-            const writeStream = fs.createWriteStream(`../files/${tmpFileName}`);
+            const writeStream = fs.createWriteStream(`./files/${tmpFileName}`);
             req.pipe(limitter).pipe(hashTransform).pipe(writeStream);
             req.on('error', () => {
                 limitter.destroy();
@@ -94,29 +94,32 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
             });
 
             Promise.all([hashResultPromise, sizeResultPromise]).then(([hash, size]) => {
-                fs.rename(`../files/${tmpFileName}`, `../files/${hash}`, () => {
+                fs.rename(`./files/${tmpFileName}`, `./files/${hash}`, () => {
+                    const deletePassword = random(6);
                     const url = random(16);
-                    prisma.file.create({
-                        data: {
-                            path: hash,
-                            mime: mime,
-                            password: deletePassword,
-                            filename: filename,
-                            urlPath: url,
-                            fileSize: size
-                        }
-                    }).then(file => {
-                        res.writeHead(201, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({
-                            filename: filename,
-                            mime: mime,
-                            sha256hash: hash,
-                            fileSize: size,
-                            deletePassword: deletePassword,
+                    bcrypt.hash(deletePassword, 8).then(hashedPassword => {
+                        prisma.file.create({
+                            data: {
+                                path: hash,
+                                mime: mime,
+                                password: hashedPassword,
+                                filename: filename,
+                                urlPath: url,
+                                fileSize: size
+                            }
+                        }).then(file => {
+                            res.writeHead(201, { 'Content-Type': 'application/json' });
+                            res.end(JSON.stringify({
+                                filename: filename,
+                                mime: mime,
+                                sha256hash: hash,
+                                fileSize: size,
+                                deletePassword: deletePassword,
 
-                            downloadURL: baseURL + `${file.id}/dl/${filename}`,
-                            downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(baseURL + `${file.id}/dl/${filename}`),
-                        }));
+                                downloadURL: baseURL + `${file.urlPath}/dl/${filename}`,
+                                downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(baseURL + `${file.urlPath}/dl/${filename}`),
+                            }));
+                        });
                     });
                 });
             }).catch(() => {
@@ -142,7 +145,7 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
                             'Content-Disposition': `attachment; filename=${JSON.stringify(file.filename)}`,
                             'Content-Length': file.fileSize
                         });
-                        res.end(fs.createReadStream(`../files/${file.path}`));
+                        fs.createReadStream(`./files/${file.path}`).pipe(res);
                         break;
                     }
                     case 'info': {
@@ -160,14 +163,37 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
                     }
                     default: {
                         if (req.method === 'DELETE') {
-                            prisma.file.delete({
-                                where: {
-                                    id: file.id
-                                }
-                            }).then(() => {
-                                res.writeHead(204, { 'Content-Type': 'application/json' });
-                                res.end(JSON.stringify({ 'message': 'deleted' }));
-                            });
+                            try {
+                                const basic = req.headers.authorization?.split(' ')[1] ?? '';
+                                const password = Buffer.from(basic, 'base64').toString('utf8').split(':')[1] ?? '';
+                                bcrypt.compare(password, file.password).then(result => {
+                                    if (!result) {
+                                        res.writeHead(401, {
+                                            'Content-Type': 'application/json',
+                                            'WWW-Authenticate': 'Basic'
+                                        });
+                                        res.end(JSON.stringify({ 'message': 'Unauthorized' }));
+                                        return;
+                                    }
+                                    prisma.file.update({
+                                        where: {
+                                            id: file.id
+                                        },
+                                        data: {
+                                            hidden: true
+                                        }
+                                    }).then(() => {
+                                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                                        res.end(JSON.stringify({ 'message': 'deleted' }));
+                                    });
+                                });
+                            } catch (error) {
+                                res.writeHead(400, {
+                                    'Content-Type': 'application/json',
+                                    'WWW-Authenticate': 'Basic'
+                                });
+                                res.end(JSON.stringify({ 'message': 'invalid authorization header' }));
+                            }
                         } else {
                             res.writeHead(404, { 'Content-Type': 'application/json' });
                             res.end(JSON.stringify({ 'message': 'invalid url exmaple: /fileId/dl/' }));
@@ -178,7 +204,23 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
             });
         };
     });
+    server.on('error', (error) => {
+        console.error(error);
+        prisma.$disconnect();
+        server.close();
+    });
+    process.on('SIGINT', () => {
+        console.log('bye! Have a good day!');
+        prisma.$disconnect();
+        server.close();
+        process.exit(0);
+    });
     server.listen(port, () => {
-        console.log(`Server running at https://${hostname}:${port}/`);
+        console.log(`Server running at ${baseURL}`);
     });
 }
+
+main(hostname, 443, {
+    'cert': fs.readFileSync('/etc/cert/fullchain.pem'),
+    'key': fs.readFileSync('/etc/cert/privkey.pem'),
+});
