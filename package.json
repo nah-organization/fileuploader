@@ -1,17 +1,22 @@
 {
   "scripts": {
     "build": "tsc",
-    "start": "node server/main.js",
-    "dockerup": "docker-compose build;docker compose up -d",
+    "prestart": "npm run migrate",
+    "start": "node --enable-source-maps dist/main.js",
+    "dockerup": "docker compose up --build -d",
     "dockerdown": "docker compose down",
-    "chgdschema": "prisma generate"
+    "chgdschema": "prisma generate",
+    "migrate": "prisma migrate reset --force; prisma migrate dev --name init",
+    "dev": "npm run dockerdown; npm run dockerup; say 'ドッカーが起動しました'"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/node": "^18.11.7",
     "prisma": "^4.5.0",
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@prisma/client": "^4.5.0"
+    "@prisma/client": "^4.5.0",
+    "bcrypt": "^5.1.0"
   }
 }
