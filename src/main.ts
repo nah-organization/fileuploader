@@ -46,7 +46,6 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
             const filename = url.searchParams.get('file');
             if (!filename) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                // TODO: 
                 res.end(JSON.stringify({ 'message': 'filename doesnt set, example: /?file=test.txt&mime=text/plain' }));
                 return;
             }
@@ -108,6 +107,7 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
                         }).then(file => {
                             res.writeHead(201, { 'Content-Type': 'application/json' });
                             res.end(JSON.stringify({
+                                id: url,
                                 filename: filename,
                                 mime: mime,
                                 sha256hash: hash,
