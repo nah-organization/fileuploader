@@ -6,8 +6,9 @@ function byteToString(byte) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    const id = location.hash.slice(1);
-    let deletePassword = localStorage.getItem('deletePassword-' + id);
+    const url = new URL(location.href);
+    const id = url.searchParams.get('id');
+    let deletePassword = url.searchParams.get('password') ?? localStorage.getItem('deletePassword-' + id);
 
 
     fetch(serverURL + id + '/info').then(res => res.json()).then(info => {
