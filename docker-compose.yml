@@ -13,7 +13,6 @@ services:
       - MICRO_QR_URL
     volumes:
       - ./log/:/app/log/
-      - "$FILEUPLOADER_CERT_PATH:/etc/cert/"
       - upload_file:/app/files/
       - ./.env:/app/.env
     restart: always

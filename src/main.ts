@@ -1,4 +1,4 @@
-import https from 'https';
+import http from 'http';
 import fs from 'fs';
 import * as bcrypt from 'bcrypt';
 import random from './random';
@@ -9,10 +9,10 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-function main(hostname: string, port: number, httpsOptions: https.ServerOptions) {
+function main(hostname: string, port: number) {
     const baseURL = `https://${hostname}${realPort === 443 ? '' : ':' + realPort}/`;
 
-    const server = https.createServer(httpsOptions, (req, res) => {
+    const server = http.createServer((req, res) => {
         const url = new URL(req.url ?? '', `https://${hostname}/`);
         const path = url.pathname.slice(1).split('/');
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -218,7 +218,4 @@ function main(hostname: string, port: number, httpsOptions: https.ServerOptions)
     });
 }
 
-main(hostname, 443, {
-    'cert': fs.readFileSync('/etc/cert/fullchain.pem'),
-    'key': fs.readFileSync('/etc/cert/privkey.pem'),
-});
+main(hostname, 80);
