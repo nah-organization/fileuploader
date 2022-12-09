@@ -1,3 +1,4 @@
+[![Docker Build](https://github.com/8128-33550336/fileuploader/actions/workflows/build.yml/badge.svg?event=push)](https://github.com/8128-33550336/fileuploader/actions/workflows/build.yml)
 ## `GET /`
 Redirect to web.app
 
