@@ -1,0 +1,40 @@
+name: Docker Build
+run-name: Docker Build
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'Dockerfile'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - '.github/workflows/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This job's status is ${{ job.status }}."
+      - uses: actions/checkout@v3
+      - name: Generate docker tag from unix time
+        id: version
+        run: echo "version=$(date +%s)" > $GITHUB_OUTPUT
+      - run: echo "docker tag is ${{ steps.version.outputs.version }}"
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag fileuploader:${{ steps.version.outputs.version }}
+      - name: Save the Docker image
+        run: docker save fileuploader:${{ steps.version.outputs.version }} | gzip > build/app.tar.gz
+      - run: ls build
+      - name: git commit and push
+        run: |
+          git config --global user.name ${GITHUB_ACTOR}
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git commit -m "build docker"
+          git push
+
+          
