@@ -25,6 +25,7 @@ services:
       - MYSQL_DATABASE=main
     volumes:
       - mysql_file:/var/lib/mysql
+      - ./.env:/app/.env
     restart: always
 
 volumes:
