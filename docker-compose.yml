@@ -15,6 +15,7 @@ services:
       - ./log/:/app/log/
       - "$FILEUPLOADER_CERT_PATH:/etc/cert/"
       - upload_file:/app/files/
+      - ./.env:/app/.env
     restart: always
     stdin_open: true
     tty: true
@@ -25,7 +26,6 @@ services:
       - MYSQL_DATABASE=main
     volumes:
       - mysql_file:/var/lib/mysql
-      - ./.env:/app/.env
     restart: always
 
 volumes:
