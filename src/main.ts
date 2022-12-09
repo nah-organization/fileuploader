@@ -2,18 +2,16 @@ import http from 'http';
 import fs from 'fs';
 import * as bcrypt from 'bcrypt';
 import random from './random';
-import { hostname, maxUploadSize, qrcodeBaseURL, realPort, topRedirect } from './envs';
+import { realbaseurl, maxUploadSize, qrcodeBaseURL, topRedirect } from './envs';
 import { createHashThroughStream } from './streamThroughHash';
 import { sizeLimitTransform } from './sizeLimitTransform';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-function main(hostname: string, port: number) {
-    const baseURL = `https://${hostname}${realPort === 443 ? '' : ':' + realPort}/`;
-
+function main(port: number) {
     const server = http.createServer((req, res) => {
-        const url = new URL(req.url ?? '', `https://${hostname}/`);
+        const url = new URL(req.url ?? '', `https://localhost/`);
         const path = url.pathname.slice(1).split('/');
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
@@ -114,8 +112,8 @@ function main(hostname: string, port: number) {
                                 fileSize: size,
                                 deletePassword: deletePassword,
 
-                                downloadURL: baseURL + `${file.urlPath}/dl/${filename}`,
-                                downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(baseURL + `${file.urlPath}/dl/${filename}`),
+                                downloadURL: realbaseurl + `${file.urlPath}/dl/${filename}`,
+                                downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(realbaseurl + `${file.urlPath}/dl/${filename}`),
                             }));
                         });
                     });
@@ -154,8 +152,8 @@ function main(hostname: string, port: number) {
                             sha256hash: file.path,
                             fileSize: file.fileSize,
 
-                            downloadURL: baseURL + `${file.id}/dl/${file.filename}`,
-                            downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(baseURL + `${file.id}/dl/${file.filename}`),
+                            downloadURL: realbaseurl + `${file.id}/dl/${file.filename}`,
+                            downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(realbaseurl + `${file.id}/dl/${file.filename}`),
                         }));
                         break;
                     }
@@ -214,8 +212,8 @@ function main(hostname: string, port: number) {
         process.exit(0);
     });
     server.listen(port, () => {
-        console.log(`Server running at ${baseURL}`);
+        console.log(`Server running at ${realbaseurl}`);
     });
 }
 
-main(hostname, 80);
+main(80);

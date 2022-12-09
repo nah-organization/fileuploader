@@ -1,5 +1,4 @@
-export const hostname = process.env.FILEUPLOADER_HOSTNAME ?? 'localhost';
-export const realPort = +(process.env.FILEUPLOADER_REAL_PORT ?? '') || 443;
+export const realbaseurl = process.env.FILEUPLOADER_REAL_URL ?? 'http://localhost/';
 
 export const maxUploadSize = 2 * 1024 * 1024 * 1024; // 2GiB
 
