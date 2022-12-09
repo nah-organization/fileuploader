@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'src/**'
+      - 'prisma/**'
       - 'Dockerfile'
       - 'package.json'
       - 'package-lock.json'
