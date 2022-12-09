@@ -14,7 +14,6 @@ FROM node:18-alpine
 EXPOSE 443
 WORKDIR /app/
 COPY package.json /app/
-COPY .env /app/.env
 COPY prisma /app/prisma
 RUN npm install --omit=dev && npm run chgdschema
 
