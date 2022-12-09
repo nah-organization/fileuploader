@@ -1,8 +1,7 @@
 FROM node:18-alpine AS build
 
 WORKDIR /build/
-COPY tsconfig.json /build/
-COPY package.json /build/
+COPY tsconfig.json package.json /build/
 COPY prisma /build/prisma
 RUN npm install && npm run chgdschema
 
