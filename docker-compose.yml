@@ -4,7 +4,6 @@ services:
   app:
     build: .
     ports:
-      - "$FILEUPLOADER_REAL_PORT:443"
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - FILEUPLOADER_REAL_URL
@@ -14,6 +13,7 @@ services:
       - ./log/:/app/log/
       - upload_file:/app/files/
       - ./.env:/app/.env
+      - $FILEUPLOADER_REAL_SOCKET_DIRECTORY_PATH:/socket/
     restart: always
     stdin_open: true
     tty: true

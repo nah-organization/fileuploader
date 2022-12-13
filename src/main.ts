@@ -211,7 +211,7 @@ function main(port: number) {
         server.close();
         process.exit(0);
     });
-    server.listen(port, () => {
+    server.listen('/socket/server.sock', () => {
         console.log(`Server running at ${realbaseurl}`);
     });
 }
