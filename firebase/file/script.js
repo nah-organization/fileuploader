@@ -20,6 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const size = document.getElementById('size');
 
         const deleteButton = document.getElementById('delete');
+        const downloadButton = document.getElementById('download');
         if (info.message) {
             filename.textContent = 'ファイルは存在しません。';
             size.textContent = '削除された可能性があります。';
@@ -52,6 +53,10 @@ window.addEventListener('DOMContentLoaded', () => {
             setInputCopy(deletePassword, 'deletePassword');
             setURLQR(info.firebaseInfoURL + '&password=' + deletePassword, 'firebaseWithPassword');
         }
+        downloadButton.hidden = false;
+        downloadButton.addEventListener('click', () => {
+            window.open(info.downloadURL);
+        });
 
         deleteButton.hidden = false;
         deleteButton.addEventListener('click', () => {
