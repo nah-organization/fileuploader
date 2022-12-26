@@ -119,6 +119,7 @@ function main(port: number) {
                                 firebaseInfoWithPasswordQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}&password=${deletePassword}`),
 
                                 curlCommand: `curl -o ${filename} ${realbaseurl}${file.urlPath}/dl/${filename}`,
+                                deleteCurlCommand: `curl -X DELETE -d '${deletePassword}' ${realbaseurl}${file.urlPath}/`
                             }));
                         });
                     });
