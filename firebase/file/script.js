@@ -1,3 +1,5 @@
+import * as qrcode from "https://cdn.skypack.dev/qrcode@1.5.0";
+
 const serverURL = new URL('https://fileuploader.nahsns.ga:10443/');
 
 function byteToString(byte) {
@@ -18,6 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const size = document.getElementById('size');
 
         const deleteButton = document.getElementById('delete');
+        const downloadButton = document.getElementById('download');
         if (info.message) {
             filename.textContent = 'ファイルは存在しません。';
             size.textContent = '削除された可能性があります。';
@@ -25,6 +28,35 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         filename.textContent = info.filename;
         size.textContent = byteToString(info.fileSize);
+
+        document.getElementById('uploaded').hidden = false;
+
+        const setInputCopy = (value, inputId) => {
+            const deletePasswordInput = document.getElementById(inputId);
+            deletePasswordInput.value = value;
+            const deletePasswordCopy = document.getElementById(inputId + 'Copy');
+            deletePasswordCopy.dataset.value = value;
+        };
+        const setURLQR = (value, inputBase) => {
+            qrcode.toDataURL(value).then(dataURL => {
+                const img = document.getElementById(inputBase + 'QRCode');
+                img.src = dataURL;
+            });
+            setInputCopy(value, inputBase + 'URL');
+        };
+        setURLQR(info.downloadURL, 'directDownload');
+        setURLQR(info.firebaseInfoURL, 'firebaseInfo');
+        if (deletePassword) {
+            [...document.getElementsByClassName('pw')].forEach(element => {
+                element.hidden = false;
+            });
+            setInputCopy(deletePassword, 'deletePassword');
+            setURLQR(info.firebaseInfoURL + '&password=' + deletePassword, 'firebaseWithPassword');
+        }
+        downloadButton.hidden = false;
+        downloadButton.addEventListener('click', () => {
+            window.open(info.downloadURL);
+        });
 
         deleteButton.hidden = false;
         deleteButton.addEventListener('click', () => {
@@ -54,5 +86,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 query();
             }
         });
+    });
+
+    const onCopy = ({ target }) => {
+        navigator.clipboard.writeText(target.dataset.value);
+    };
+    const copies = document.getElementsByClassName('copy');
+    [...copies].forEach(element => {
+        element.addEventListener('click', onCopy);
     });
 });

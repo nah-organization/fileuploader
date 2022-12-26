@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const id = res.id;
             localStorage.setItem('deletePassword-' + id, deletePassword);
 
-            const setInputCopy = (value, inputId, copyId) => {
+            const setInputCopy = (value, inputId) => {
                 const deletePasswordInput = document.getElementById(inputId);
                 deletePasswordInput.value = value;
                 const deletePasswordCopy = document.getElementById(inputId + 'Copy');
