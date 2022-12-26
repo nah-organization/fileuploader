@@ -3,7 +3,6 @@ version: "3.7"
 services:
   app:
     build: .
-    ports:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - FILEUPLOADER_REAL_URL
