@@ -1,3 +1,5 @@
+import * as qrcode from "https://cdn.skypack.dev/qrcode@1.5.0";
+
 const serverURL = new URL('https://fileuploader.nahsns.ga:10443/');
 
 function byteToString(byte) {

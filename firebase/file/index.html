@@ -11,13 +11,13 @@
         <h1 id="filename"></h1>
         <h3 id="size"></h3>
         <div id="uploaded" hidden>
-            <div class="pw">
+            <div class="pw" hidden>
                 <label for="deletePassword">削除用パスワード</label><input type="text" readonly id="deletePassword"><button id="deletePasswordCopy" class="copy">コピー<span class="emoji">📑</span></button>
             </div>
             <div>
                 <input type="radio" name="displayURL" id="directDownload" hidden><label for="directDownload">直接ダウンロード</label>
                 <input type="radio" name="displayURL" id="firebaseInfo" hidden><label for="firebaseInfo">情報の表示</label>
-                <input type="radio" name="displayURL" id="firebaseWithPassword" hidden><label for="firebaseWithPassword" class="pw">パスワードを共有</label>
+                <input type="radio" name="displayURL" id="firebaseWithPassword" hidden><label for="firebaseWithPassword" class="pw" hidden>パスワードを共有</label>
 
                 <div id="QRArea">
                     <div id="directDownloadQRArea">
@@ -36,6 +36,6 @@
             </div>
         </div>
         <button id="delete" hidden>削除</button>
-        <script src="script.js"></script>
+        <script src="script.js" type="module"></script>
     </body>
 </html>
