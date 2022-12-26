@@ -34,7 +34,6 @@ function main(port: number) {
                 res.end();
                 return;
             }
-            // 405
             if (req.method !== 'POST') {
                 res.writeHead(405);
                 res.end();
@@ -114,6 +113,10 @@ function main(port: number) {
 
                                 downloadURL: realbaseurl + `${file.urlPath}/dl/${filename}`,
                                 downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(realbaseurl + `${file.urlPath}/dl/${filename}`),
+                                firebaseInfoURL: topRedirect + `file/?id=${file.urlPath}`,
+                                firebaseInfoQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}`),
+                                firebaseInfoWithPasswordURL: topRedirect + `file/?id=${file.urlPath}&password=${deletePassword}`,
+                                firebaseInfoWithPasswordQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}&password=${deletePassword}`),
                             }));
                         });
                     });

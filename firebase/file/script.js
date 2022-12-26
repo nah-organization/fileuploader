@@ -8,8 +8,10 @@ function byteToString(byte) {
 window.addEventListener('DOMContentLoaded', () => {
     const url = new URL(location.href);
     const id = url.searchParams.get('id');
-    let deletePassword = url.searchParams.get('password') ?? localStorage.getItem('deletePassword-' + id);
-
+    if (localStorage.getItem('deletePassword-' + id) === null && url.searchParams.get('password') !== null) {
+        localStorage.setItem('deletePassword-' + id, url.searchParams.get('password'));
+    }
+    let deletePassword = localStorage.getItem('deletePassword-' + id);
 
     fetch(serverURL + id + '/info').then(res => res.json()).then(info => {
         const filename = document.getElementById('filename');
