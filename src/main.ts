@@ -117,6 +117,8 @@ function main(port: number) {
                                 firebaseInfoQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}`),
                                 firebaseInfoWithPasswordURL: topRedirect + `file/?id=${file.urlPath}&password=${deletePassword}`,
                                 firebaseInfoWithPasswordQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}&password=${deletePassword}`),
+
+                                curlCommand: `curl -o ${filename} ${realbaseurl}${file.urlPath}/dl/${filename}`,
                             }));
                         });
                     });
@@ -157,6 +159,10 @@ function main(port: number) {
 
                             downloadURL: realbaseurl + `${file.id}/dl/${file.filename}`,
                             downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(realbaseurl + `${file.id}/dl/${file.filename}`),
+                            firebaseInfoURL: topRedirect + `file/?id=${file.urlPath}`,
+                            firebaseInfoQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}`),
+
+                            curlCommand: `curl -o ${file.filename} ${realbaseurl}${file.urlPath}/dl/${file.filename}`,
                         }));
                         break;
                     }
