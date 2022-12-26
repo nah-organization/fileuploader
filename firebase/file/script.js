@@ -1,4 +1,4 @@
-const serverURL = new URL('https://33554432-2.local:4000/');
+const serverURL = new URL('https://fileuploader.nahsns.ga:10443/');
 
 function byteToString(byte) {
     const size = Math.floor(Math.log2(byte) / 10);
