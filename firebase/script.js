@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
             setInputCopy(deletePassword, 'deletePassword');
             setURLQR(res.downloadURL, 'directDownload');
             setURLQR(res.firebaseInfoURL, 'firebaseInfo');
-            setURLQR(res.firebaseInfoURL, 'firebaseWithPassword');
+            setURLQR(res.firebaseInfoWithPasswordURL, 'firebaseWithPassword');
 
         }).catch(() => {
             alert('アップロードに失敗しました。');

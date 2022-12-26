@@ -115,6 +115,8 @@ function main(port: number) {
                                 downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(realbaseurl + `${file.urlPath}/dl/${filename}`),
                                 firebaseInfoURL: topRedirect + `file/?id=${file.urlPath}`,
                                 firebaseInfoQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}`),
+                                firebaseInfoWithPasswordURL: topRedirect + `file/?id=${file.urlPath}&password=${deletePassword}`,
+                                firebaseInfoWithPasswordQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}&password=${deletePassword}`),
                             }));
                         });
                     });
