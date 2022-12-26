@@ -158,8 +158,8 @@ function main(port: number) {
                             sha256hash: file.path,
                             fileSize: file.fileSize,
 
-                            downloadURL: realbaseurl + `${file.id}/dl/${file.filename}`,
-                            downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(realbaseurl + `${file.id}/dl/${file.filename}`),
+                            downloadURL: realbaseurl + `${file.urlPath}/dl/${file.filename}`,
+                            downloadQRCodeURL: qrcodeBaseURL + encodeURIComponent(realbaseurl + `${file.urlPath}/dl/${file.filename}`),
                             firebaseInfoURL: topRedirect + `file/?id=${file.urlPath}`,
                             firebaseInfoQRCodeURL: qrcodeBaseURL + encodeURIComponent(topRedirect + `file/?id=${file.urlPath}`),
 
