@@ -53,6 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
             setInputCopy(deletePassword, 'deletePassword');
             setURLQR(info.firebaseInfoURL + '&password=' + deletePassword, 'firebaseWithPassword');
         }
+        setInputCopy(`curl -O '${info.downloadURL}'`, 'command');
         downloadButton.hidden = false;
         downloadButton.addEventListener('click', () => {
             window.open(info.downloadURL);
