@@ -1,6 +1,6 @@
 [![Docker Build](https://github.com/8128-33550336/fileuploader/actions/workflows/build.yml/badge.svg?event=push)](https://github.com/8128-33550336/fileuploader/actions/workflows/build.yml)
 ## `GET /`
-Redirect to web.app
+Redirect to [https://nah-uploader.web.app/](https://nah-uploader.web.app/)
 
 ## `POST /?file=test.txt&mime=text/plain`
 Upload
