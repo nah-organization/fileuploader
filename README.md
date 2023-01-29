@@ -1,7 +1,7 @@
 [![Docker Build](https://github.com/8128-33550336/fileuploader/actions/workflows/build.yml/badge.svg?event=push)](https://github.com/8128-33550336/fileuploader/actions/workflows/build.yml)
 [![Deploy to Firebase Hosting on merge](https://github.com/nah-organization/fileuploader/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/nah-organization/fileuploader/actions/workflows/firebase-hosting-merge.yml)
 ## `GET /`
-Redirect to [https://nah-uploader.web.app/](https://nah-uploader.web.app/)
+Redirect to [https://uploader.nahsns.ga/](https://uploader.nahsns.ga/)
 
 ## `POST /?file=test.txt&mime=text/plain`
 Upload
