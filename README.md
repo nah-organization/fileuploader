@@ -7,6 +7,7 @@ Redirect to [https://uploader.nahsns.ga/](https://uploader.nahsns.ga/)
 ## `POST /?file=test.txt&mime=text/plain`
 Upload
 File Payload
+
 ### Return 
 ```json
 {
@@ -29,4 +30,5 @@ row password payload
 ## fileuploader
 
 ## qrcode
+
 
