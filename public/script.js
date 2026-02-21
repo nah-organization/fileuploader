@@ -1,6 +1,6 @@
 import * as qrcode from "https://cdn.skypack.dev/qrcode@1.5.0";
 
-const serverURL = new URL('https://fileuploader.nahsns.ga:10443/');
+const serverURL = new URL('https://fileuploader.savacraft.jp/');
 
 window.addEventListener('DOMContentLoaded', () => {
     const chooseButton = document.getElementById('chooseButton');
