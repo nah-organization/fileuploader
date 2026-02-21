@@ -144,7 +144,7 @@ function main(port: number) {
                     case 'dl': {
                         res.writeHead(200, {
                             'Content-Type': file.mime,
-                            'Content-Disposition': `attachment; filename=${JSON.stringify(file.filename)}`,
+                            'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(file.filename)}`,
                             'Content-Length': file.fileSize
                         });
                         fs.createReadStream(`./files/${file.path}`).pipe(res);
