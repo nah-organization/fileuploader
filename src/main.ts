@@ -142,6 +142,7 @@ function main(port: number) {
                 }
                 switch (path[1]) {
                     case 'dl': {
+                        console.log(`attachment; filename*=UTF-8''${encodeURIComponent(file.filename)}`);
                         res.writeHead(200, {
                             'Content-Type': file.mime,
                             'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(file.filename)}`,
