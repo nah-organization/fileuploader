@@ -1,4 +1,4 @@
-FROM node:18-alpine AS build
+FROM node:24-alpine AS build
 
 WORKDIR /build/
 COPY tsconfig.json package.json package-lock.json /build/
@@ -8,7 +8,7 @@ RUN npm ci && npm run chgdschema
 COPY src /build/src
 RUN npm run build
 
-FROM node:18-alpine
+FROM node:24-alpine
 
 EXPOSE 443
 WORKDIR /app/
