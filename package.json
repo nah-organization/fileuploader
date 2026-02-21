@@ -7,9 +7,7 @@
     "dockerdown": "docker compose down",
     "chgdschema": "prisma generate",
     "migrate": "prisma migrate reset --force; prisma migrate dev --name init",
-    "dev": "npm run dockerdown; npm run dockerup; say 'ドッカーが起動しました'",
-    "firebase": "firebase deploy",
-    "firebaseBuild": "echo 'empty'"
+    "dev": "npm run dockerdown; npm run dockerup; say 'ドッカーが起動しました'"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
