@@ -12,13 +12,13 @@
     "firebaseBuild": "echo 'empty'"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/node": "^18.11.7",
-    "prisma": "^4.5.0",
-    "typescript": "^4.8.4"
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^18.19.130",
+    "prisma": "^6.19.2",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@prisma/client": "^4.5.0",
-    "bcrypt": "^5.1.0"
+    "@prisma/client": "^6.19.2",
+    "bcrypt": "^6.0.0"
   }
 }
