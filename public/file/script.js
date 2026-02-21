@@ -1,6 +1,6 @@
 import * as qrcode from "https://cdn.skypack.dev/qrcode@1.5.0";
 
-const serverURL = new URL('https://fileuploader.nahsns.ga:10443/');
+const serverURL = new URL('https://fileuploader.savacraft.jp/');
 
 function byteToString(byte) {
     const size = Math.floor(Math.log2(byte) / 10);
